@@ -1,0 +1,15 @@
+<% content_for :body_content_left do %>
+
+  <div class="news item">
+    <p class="header"><%= link_to @event.title, refinery.calendar_event_path(@event.id) %> <span class="date">|&nbsp;<%= l(@event.starts_at, :format => "%d.%m.%Y") %></span></p>
+    <div class="content">
+      <%= @event.description.html_safe %>
+    </div>
+    <p>
+      <%= link_to "&laquo;&nbsp;К списку событий".html_safe, refinery.calendar_events_path %>
+    </p>
+  </div>
+
+<% end %>
+
+<%= render :partial => "/refinery/content_page" %>

@@ -1,0 +1,6 @@
+<%= form_tag refinery.search_path do -%>
+  <%= text_field_tag :query, {}, {:type => "search",
+                     :placeholder => "Что вы ищете?",
+                     :class => "site-search",
+                     :value => (params[:query] if params[:query])} %>
+<% end %>

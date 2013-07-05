@@ -1,0 +1,19 @@
+<% content_for :body_content_title do %>
+  Результаты поиска по запросу &laquo;<span class="query-text"><%= params[:query] %></span>&raquo;
+<% end %>
+
+<% content_for :body do %>
+  <% if @results.empty? %>
+    К сожалению, по вашему запросу &laquo;<span class="query-text"><%= params[:query] %></span>&raquo; мы не смогли ничего найти
+  <% else %>
+    <ul id="search_results">
+      <% @results.each do |result| %>
+        <li>
+          <%= link_to result_title(result).html_safe, result_url(result) %>
+        </li>
+      <% end %>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= render :partial => "/refinery/content_page" %>

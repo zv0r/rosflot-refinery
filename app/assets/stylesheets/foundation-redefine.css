@@ -1,0 +1,27 @@
+.row {
+  max-width: none;
+}
+
+.lt-ie9 .row {
+  width: 100%;
+}
+
+nav {
+  font-family: 'Roboto', Arial, sans-serif;
+}
+
+.side-nav {
+  padding: 0;
+}
+
+.pagination {
+  margin-top: 20px;
+}
+
+.pagination li.current a {
+  background-color: #294782;
+}
+
+.pagination li.current a:hover {
+  background-color: #193772;
+}

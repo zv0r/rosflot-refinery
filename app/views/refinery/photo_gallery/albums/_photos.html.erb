@@ -1,0 +1,21 @@
+<% cache "refinery/photo_gallery/albums/#{@page.album.id}/page/#{params[:page]}" do %>
+<% photos_for_page = @page.photos_for_page(params[:page])  %>
+
+<%= will_paginate photos_for_page %>
+
+<ul id="gallery" class="clearfix">
+  <% photos_for_page.each_with_index do |photo, index|  %>
+      <li class="th radius">
+        <%= link_to (image_tag  photo.file.url(:preview), :width => Refinery::PhotoGallery.preview_dimensions[0], :height => Refinery::PhotoGallery.preview_dimensions[1]  ), photo.file.single.url, {
+                :target=> "_blank",
+                :class=>"fancybox",
+                :data =>{:title=> photo.title + '<br/>' + photo.description + '<br/>' + link_to("Оригинальный размер", photo.file.url, :target => "_blank")},
+                :rel=>"group",
+                :title=> photo.title } %>
+      </li>
+  <% end %>
+</ul>
+<div class="clear"></div>
+
+    <%= will_paginate photos_for_page %>
+<% end %>

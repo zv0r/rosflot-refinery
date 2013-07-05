@@ -1,0 +1,11 @@
+<% content_for :body_content_left do %>
+  <% if @events.any? %>
+    <%= render @events %>
+  <% else %>
+    <p><em>События появятся в ближайшее время</em></p>
+  <% end %>
+<% end %>
+
+<% content_for :stylesheets, stylesheet_link_tag('events') %>
+
+<%= render '/refinery/content_page' %>

@@ -1,0 +1,9 @@
+<%
+  if !!local_assigns[:apply_css] and (classes = menu_branch_css(local_assigns)).any?
+    css = "class='#{classes.join(' ')}'".html_safe
+  end
+-%>
+<li class="divider"></li>
+<li>
+  <%= link_to(sidebar_menu_branch.title, refinery.url_for(sidebar_menu_branch.url)) -%>
+</li>

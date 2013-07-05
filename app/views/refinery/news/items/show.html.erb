@@ -1,0 +1,21 @@
+<% content_for :body_content_title, @item.title %>
+<% content_for :body_content_left do %>
+
+  <div class="news item">
+    <p class="header"><%= link_to @item.title, refinery.news_item_path(@item) %> <span class="date">|&nbsp;<%= l(@item.publish_date, :format => "%d.%m.%Y") %></span></p>
+    <div class="content">
+      <%= @item.body.html_safe %>
+    </div>
+    <% if @item.source.present? %>
+      <p>
+        <small>Источник: <%= @item.source %></small>
+      </p>
+    <% end %>
+    <p>
+      <%= link_to "&laquo;&nbsp;К списку новостей".html_safe, refinery.news_items_path %>
+    </p>
+  </div>
+
+<% end %>
+
+<%= render :partial => "/refinery/content_page" %>

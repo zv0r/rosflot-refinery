@@ -1,0 +1,8 @@
+<div class="news">
+  <p class="header"><%= link_to event.title, refinery.calendar_event_path(event.id) %> <span class="date">|&nbsp;<%= event.starts_at.strftime('%d.%m.%Y').html_safe %></span></p>
+  <div class="content">
+    <%= truncate  event.description, :length => 200,
+      :omission => " ... #{link_to "&raquo;".html_safe, refinery.calendar_event_path(event.id)}",
+      :preserve_html_tags => true %>
+  </div>
+</div>

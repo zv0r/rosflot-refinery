@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title><%= browser_title(yield(:title)) %></title>
+  <%= csrf_meta_tags if Refinery::Core.authenticity_token_on_frontend -%>
+  <%= stylesheet_link_tag "application" %> 
+  <!--[if lte IE 8]>
+    <%= stylesheet_link_tag "lteie8" %>
+    <%= stylesheet_link_tag "ie8-grid-foundation-4" %>
+  <![endif]-->
+  <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,100,500,100italic,300italic,400italic,500italic,700,700italic,900,900italic&subset=latin,cyrillic-ext,cyrillic' rel='stylesheet' type='text/css' />
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,300italic,700&subset=latin,cyrillic-ext,cyrillic' rel='stylesheet' type='text/css' />
+  <%= javascript_include_tag "vendor/custom.modernizr" %>
+</head>
+<body>
+
+  <div class="all-container">
+    <header>
+      <div class="row">
+        <div class="large-12 columns collage">
+          <div class="site-name-container absolute-centered-conatiner">
+            <div class="site-name absolute-centered">
+                <p class="slogan">Вместе за Россию и Флот!</p>
+                <p><%= link_to "Ярославское Региональное Отделение&nbsp;ДПФ".html_safe, "/" %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+  </div>
+
+  <!-- Навигация -->
+  <%= render '/refinery/menu' -%>
+  <!-- !Навигация -->
+
+  <section class="content">
+    <div class="row">
+      <div class="large-2 columns">
+        <h4 class="sidebar-header">Поиск</h4>
+        <%= render '/refinery/shared/search' %>
+
+        <h4 class="sidebar-header">События</h4>
+        
+        <div id="events-calendar" class="calendar"></div>
+
+        <h4 class="sidebar-header">Разделы</h4>
+        <%= render '/refinery/sidebar_menu' -%>
+
+      </div>
+
+      <div class="large-8 columns">
+
+        <%= yield %>
+
+      </div>
+
+      <div class="large-2 columns hide-for-small">
+        <% partners = Refinery::Page.where(:parent_id => Refinery::Setting.get(:partners_page_group)).order(:slug) %>
+        <% if partners.any? %>
+          <h4 class="sidebar-header">Наши партнеры</h4>
+          <ul class="side-nav">
+            <% partners.each do |partner| %>
+              <li><%= link_to partner.title.html_safe, refinery.url_for(partner.url_marketable) %></li>
+              <li class="divider"></li>
+            <% end %>
+          </ul>
+        <% end %>
+
+        <% sidebar_thumbs = Refinery::PhotoGallery::Photo.order("id DESC").limit(15) %>
+        <% if sidebar_thumbs.any? %>
+          <h4 class="sidebar-header">Медиа</h4>
+          <ul class="media-thumbs">
+            <% sidebar_thumbs.each do |photo| %>
+            <li class="th radius">
+                <%= link_to (image_tag  photo.file.url(:album), :width => Refinery::PhotoGallery.album_dimensions[0], :height => Refinery::PhotoGallery.album_dimensions[1]  ), photo.file.single.url, {
+                  :target=> "_blank",
+                  :class=>"fancybox",
+                  :data =>{:title=> photo.title + '<br/>' + photo.description + '<br/>' + link_to("Оригинальный размер", photo.file.url, :target => "_blank")},
+                  :rel=>"group",
+                  :title=> photo.title } %>
+              </li>
+            <% end %>
+          </ul>
+        <% end %>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="row">
+      <div class="large-12 columns">
+        <p class="footer-info">&copy;&nbsp;Ярославское Региональное Отделение Движения Поддержки Флота, 2013</p>
+      </div>
+    </div>
+    <div class="row">
+      <div id="banking-details" class="large-6 columns large-centered banking-details">
+        <a href="#banking-details" id="banking-details-zoom" class="print-version" title="Увеличить"><img src="/assets/bg-search-filed.png" alt="" /></a>
+        <a href="/banking-details.html" target="_blank" class="print-version" title="Версия для печати. Откроется в новом окне."><img src="/assets/icon-print.png" alt="" /></a>
+        <p class="header">Наши реквизиты</p>
+        <p>Ярославское региональное отделение Общероссийского общественного движения поддержки флота</p>
+        <p><span class="description">ИНН:</span> 7603049062</p>
+        <p><span class="description">КПП:</span> 760301001</p>
+        <p><span class="description">ОКАТО:</span> 78401364000</p>
+        <p><span class="description">р/сч:</span> 40703810508110001347 в ОАО АКБ&nbsp;&laquo;ПРОБИЗНЕСБАНК&raquo; г.&nbsp;Москва</p>
+        <p><span class="description">БИК:</span> 044525986</p>
+        <p><span class="description">к/сч:</span> 30101810600000000986</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="large-6 columns large-centered footer-alert">
+        Все права защищены. Полное или частичное копирование материалов запрещено. Авторские права на&nbsp;проекты принадлежат их&nbsp;разработчикам. Полное или частичное использование материалов без приобретения соответствующих прав запрещено.
+      </div>
+    </div>
+  </footer>
+
+  <%= javascript_include_tag "application" %>
+
+  <!-- Google stats -->
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-41769506-1', 'rosflot-yar.ru');
+    ga('send', 'pageview');
+
+  </script>
+  <!-- !Google stats -->
+
+  <script>
+    $(document).foundation();
+    $(document).ready(function() {
+      $("#banking-details-zoom").click(function() {
+        $("#banking-details").toggleClass("large");
+      });
+
+      $("#events-calendar").jsonCalendar();
+
+      $(".fancybox").fancybox({
+        prevEffect      : 'none',
+        nextEffect      : 'none',
+        beforeShow : function(){
+          this.title =  $(this.element).attr('data-title');
+        },
+        helpers : {
+          title   : { type : 'outside' },
+          buttons : {},
+          overlay : {
+            opacity: 0.8,
+            css : {
+              'background-color' : '#000'
+            }
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
